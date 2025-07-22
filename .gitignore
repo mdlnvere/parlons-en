@@ -1,0 +1,40 @@
+# Node modules (backend et frontend)
+node_modules/
+**/node_modules/
+
+# Environnement
+.env
+*.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dossiers de build / dist
+dist/
+build/
+
+# Cache / fichiers temporaires
+*.cache
+.vscode/
+.DS_Store
+
+# Fichiers générés par l’IDE / OS
+.idea/
+*.sublime-workspace
+*.sublime-project
+Thumbs.db
+*.swp
+
+# Fichiers générés par Vue / Vite
+*.local
+*.lock
+
+# Dossier articles (si tu ne veux pas versionner les articles)
+# articles/
+
+# Fichiers utilisateur
+users.json
