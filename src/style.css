@@ -9,3 +9,15 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+
+.prose-smaller h1 {
+    @apply text-xl;
+}
+.prose-smaller h2 {
+    @apply text-lg;
+}
+.prose-smaller h3 {
+    @apply text-base;
+}
+

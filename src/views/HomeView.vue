@@ -64,19 +64,68 @@
   </section>
 
 
-<div >
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div v-for="article in articles" :key="article.slug" class="border p-4 rounded shadow">
-        <router-link :to="`/article/${article.slug}`" class="text-xl font-semibold text-accent hover:underline">
-          {{ article.title }}
-        </router-link>
-        <img v-if="article.imageUrl" :src="article.imageUrl" class="w-full my-2 rounded" />
+  <section class="bg-primary h-96 mx-0 my-32 px-5 text-white  text-left flex flex-row justify-around">
+    <div class="flex flex-col justify-around py-10 px-28">
+      <h3 class="font-medium text-xl"  > DERRIERE L'ECRAN</h3>
+      <h2 class="text-4xl" style="font-weight: bolder">Ravie de te rencontrer</h2>
+      <p class="text-base  pb-6 w-96 " style="font-weight: lighter">Moi, c’est Anne-Sophie Vere, freelance passionnée par le design, le développement, et tout ce qui nourrit mon univers créatif.  Ici, je partage projets, idées et inspirations qui me passionnent au quotidien.</p>
+      <p class="text-2xl font-bold">Assieds toi, le meilleur reste à venir</p>
+    </div>
+    <img class="pr-3 " alt="Portait d'Anne-Sophie Vere" src="/public/images/pic.png" />
+  </section>
 
-        <!-- ✅ Rendu HTML depuis Markdown -->
-        <div class="prose max-w-none text-sm" v-html="article.preview"></div>
+  <section class="py-4 px-4 md:py-10 md:px-40">
+    <div class="my-3">
+      <h2 class="font-semibold text-xl">Mes derniers articles</h2>
+      <div class="flex flex-row gap-5">
+        <h3 class="text-secondary font-semibold text-xl">Tu risques d'y rester un moment</h3>
+        <RouterLink to="" class="text-accent text-base flex flex-row items-center" >Voir tout les articles <img  alt="arrow icon" src="/public/icons/arrow.svg"></RouterLink>
       </div>
     </div>
-  </div>
+      <div class="flex flex-col w-full md:flex-row gap-4">
+        <div v-if="articles.length" class="flex flex-col gap-5 px-1 py-5 mr-3 rounded-xl w-full md:w-1/2">
+          <div
+              v-if="articles[0].imageUrl"
+              class="w-full aspect-[4/3] bg-center bg-cover bg-no-repeat rounded-lg shadow-xl"
+              :style="{ backgroundImage: `url(${articles[0].imageUrl})` }"
+          ></div>
+          <div class="flex flex-col justify-between p-2">
+            <div class="prose text-xs md:text-xs font-medium mb-5" v-html="articles[0].mainPreview"></div>
+            <div class="flex  justify-end ">
+              <router-link :to="`/article/${articles[0].slug}`" class="text-sm py-1 px-3 border font-medium border-black rounded-xl hover:bg-black hover:text-white w-max mt-2">
+                Lire l'article
+              </router-link>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-7 px-5 py-1 w-full md:w-1/2">
+          <div
+              v-for="article in articles.slice(1, 4)"
+              :key="article.slug"
+              class="flex flex-col md:flex-row md:items-start my-2"
+          >
+            <div
+                v-if="article.imageUrl"
+                class="w-full md:w-[120px] md:h-[120px] aspect-square rounded shadow-xl bg-center bg-cover bg-no-repeat mb-2 md:mb-0 md:mr-5 shrink-0"
+                :style="{ backgroundImage: `url(${article.imageUrl})` }"
+            ></div>
+            <div class="flex flex-col">
+              <div class="prose prose-smaller text-xs md:text-sm mb-2" v-html="article.preview"></div>
+              <div class="flex justify-end mt-2">
+                <router-link :to="`/article/${article.slug}`" class="text-sm py-1 px-3 border font-medium border-black rounded-xl hover:bg-black hover:text-white w-max">
+                  Lire l'article
+                </router-link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+  </section>
+
 </template>
 
 <script setup>
@@ -90,6 +139,7 @@ const articles = ref([])
 
 const carousel = ref(null)
 const items = Array.from({ length: 10 }) // 10 cartes
+
 
 function scrollNext() {
   if (carousel.value) {
@@ -116,7 +166,8 @@ onMounted(async () => {
     articles.value = data.map(article => ({
       ...article,
       imageUrl: article.image ? `${API_VITE}/uploads/${article.image}` : null,
-      preview: marked.parse(article.content.substring(0, 200) + '...')  // Limite à 200 caractères par exemple
+      preview: marked.parse(article.content.substring(0, 100) + '...'),// Limite à 200 caractères par exemple
+      mainPreview: marked.parse(article.content.substring(0, 500) + '...')
     }))
   } catch (err) {
     console.error('Erreur chargement articles', err)
