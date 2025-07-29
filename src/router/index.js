@@ -3,8 +3,11 @@ import Home from '../views/Home.vue'
 import Article from '../views/Article.vue'
 import ArticleForm from "../views/admin/ArticleForm.vue";
 import HomeView from "../views/HomeView.vue";
-import Login from "../views/Login.vue";
+import Login from "../views/admin/Login.vue";
 import AdminView from "../views/admin/AdminView.vue";
+import About from "../views/About.vue";
+import ContactView from "../views/ContactView.vue";
+import AllArticles from "../views/admin/AllArticles.vue";
 
 
 const routes = [
@@ -12,10 +15,24 @@ const routes = [
     name: 'home',
     component: HomeView
   },
+  { path: '/about',
+    name: 'about',
+    component: About
+  },
+  { path: '/contact',
+    name: 'contact',
+    component: ContactView
+  },
+  { path: '/blog',
+    name: 'blog',
+    component: AllArticles
+  },
+    //DETAIL
   { path: '/article/:slug',
     name:'detail-article',
     component: Article
   },
+    //ADMIN
   { path: '/login',
     name: 'login',
     component: Login
