@@ -5,17 +5,15 @@
       <h1 class=" font-medium mt-2 mx-3 md:mx-5 md:pt-5 pb-2 md:text-8xl text-4xl " >A mon tour</h1>
     </div>
     <div class="flex flex-row gap-10 justify-center mb-10">
-      <p class="hover:text-accent">CREER</p>
+      <p>CREER</p>
       <p>|</p>
-      <p class="hover:text-accent">CODER</p>
+      <p>CODER</p>
       <p>|</p>
-      <p class="hover:text-accent">PARTAGER</p>
+      <p>PARTAGER</p>
     </div>
   </header>
 
   <div class="px-10 py-5 md:px-52 md:py-24">
-
-
       <div>
         <h2 class="text-2xl w-9/12 text-accent font-medium text-left mb-8">Ici j’écris, là-bas je crée. Et entre les deux, j’aide des projets à prendre forme.</h2>
         <p class="text-base font-regular text-left">
@@ -23,23 +21,7 @@
         </p>
       </div>
     <section>
-      <div class="my-4  md:my-28 flex md:flex-row flex-col gap-16">
-        <div class="flex flex-col gap-5 py-3">
-          <h3 class="text-2xl font-medium  ">Profil express</h3>
-          <p class="text-base font-regular text-left">Anne-Sophie, développeuse et UX designer indépendante en Ariège. J’accompagne les entreprises dans leur digitalisation, avec une approche sur-mesure mêlant design, dev et couleur. Et quand je décroche un peu, je lis, je dessine, et j’imagine des visuels pour ma boutique Etsy.</p>
-          <div><p>Curieux/se de découvrir d'autres facettes de mon travail ? C'est par ici : </p>
-          <div class="flex flex-row gap-4 pt-3">
-            <a href="https://www.linkedin.com/in/anne-sophie-vere" ><img src="/src/assets/icons/black_linkedin.svg" alt="accès linkedin"/></a>
-            <a href="https://www.behance.net/mdlnvere" ><img src="/src/assets/icons/black_behance.svg" alt="accès behance"/></a>
-            <a href="https://github.com/mdlnvere" ><img src="/src/assets/icons/black_github.svg" alt="accès github"/></a>
-            <a href="https://atelierrecolorer.etsy.com" ><img src="/src/assets/icons/black_etsy.svg" alt="accès boutique estsy"/></a>
-          </div>
-          </div>
-        </div>
-        <img class="max-w-[450px] "  src="../assets/me.png" alt="Drawing : portrait of the author" />
-      </div>
-
-      <div class="my-4">
+      <div class="my-40">
         <h3 class="text-2xl font-medium my-6 ">Inspirations</h3>
           <ul class="flex flex-col md:flex-row gap-10 md:text-center  text-sm">
             <li >
@@ -126,6 +108,24 @@
           <p class="py-4">Je vous accompagne dans la conception d’expériences digitales cohérentes et sur-mesure — de l’identité visuelle au développement, en passant par le design d’interfaces qui font sens.</p>
           <router-link to="/contact" class="text-sm py-1 px-3 border font-medium border-black rounded-xl hover:bg-black hover:text-white w-max" >Parlons-en</router-link>
         </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="my-4  md:my-28 flex md:flex-row flex-col gap-16">
+        <div class="flex flex-col gap-5 py-3">
+          <h3 class="text-2xl font-medium  ">Profil express</h3>
+          <p class="text-base font-regular text-left">Anne-Sophie, développeuse et UX designer indépendante en Ariège. J’accompagne les entreprises dans leur digitalisation, avec une approche sur-mesure mêlant design, dev et couleur. Et quand je décroche un peu, je lis, je dessine, et j’imagine des visuels pour ma boutique Etsy.</p>
+          <div><p>Curieux/se de découvrir d'autres facettes de mon travail ? C'est par ici : </p>
+            <div class="flex flex-row gap-4 pt-3">
+              <a href="https://www.linkedin.com/in/anne-sophie-vere" ><img src="/src/assets/icons/black_linkedin.svg" alt="accès linkedin"/></a>
+              <a href="https://www.behance.net/mdlnvere" ><img src="/src/assets/icons/black_behance.svg" alt="accès behance"/></a>
+              <a href="https://github.com/mdlnvere" ><img src="/src/assets/icons/black_github.svg" alt="accès github"/></a>
+              <a href="https://atelierrecolorer.etsy.com" ><img src="/src/assets/icons/black_etsy.svg" alt="accès boutique estsy"/></a>
+            </div>
+          </div>
+        </div>
+        <img class="max-w-[450px] "  src="../assets/me.png" alt="Drawing : portrait of the author" />
       </div>
     </section>
 

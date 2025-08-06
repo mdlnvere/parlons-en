@@ -11,6 +11,7 @@ module.exports = {
         secondary: '#666262',
         accent: '#1037D4',
         background: '#F6F6F4',
+        form: '#F6F6F4',
       },
       fontFamily: {
         sans: ['Jost', 'sans-serif'],

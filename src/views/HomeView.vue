@@ -2,7 +2,7 @@
   <div class="min-h-screen flex flex-col">
     <main class="flex-grow">
     <header>
-      <div class="flex justify-center p-5 m-2 ">
+      <div class="flex justify-center p-3 m-2 ">
         <h2 class="font-medium text-xl text-secondary w-96 text-center hover:text-accent">Pensées visuelles et digitales</h2>
       </div>
       <div class="flex justify-center mb-0 pb-0">
@@ -13,12 +13,20 @@
           <h1 class=" font-medium mt-2 mx-5 pt-5 pb-3 md:text-8xl text-4xl " >Parlons-en</h1>
         </div>
         <div class="flex flex-row gap-10 justify-center mb-10">
-          <p class="hover:text-accent">DESIGN</p>
+          <p >DESIGN</p>
           <p>|</p>
-          <p class="hover:text-accent">DEV</p>
+          <p >DEV</p>
           <p>|</p>
-          <p class="hover:text-accent">AUTRE</p>
+          <p >AUTRE</p>
         </div>
+        <div class="flex justify-center">
+          <button class="text-sm  text-white py-2 px-3 border font-medium bg-accent rounded-xl  mt-2 flex flex-row gap-3 items-center"><span>
+             Par ici
+          </span>
+            <img src="/src/assets/icons/formkit_arrowdown.svg"   alt=""/>
+          </button>
+        </div>
+
     </header>
 
     <section class="bg-primary h-96 mx-0 my-32 py-10 px-5 md:px-20 text-white  text-center flex flex-col justify-around">

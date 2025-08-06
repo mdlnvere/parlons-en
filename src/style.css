@@ -21,3 +21,11 @@
     @apply text-base;
 }
 
+.max-h-75p {
+    max-height: 75%;
+}
+
+.max-h-50p {
+    max-height: 50%;
+}
+

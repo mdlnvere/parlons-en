@@ -33,6 +33,12 @@
           <p class="text-sm text-gray-500">Aperçu :</p>
           <img :src="imagePreview" alt="Aperçu" class="max-w-xs rounded border" />
         </div>
+        <input
+            v-model="alt"
+            placeholder="Texte alternatif"
+            class="w-full p-2 border rounded"
+            required
+        />
 
         <textarea
             v-model="content"
@@ -41,6 +47,14 @@
             class="w-full p-2 border rounded"
             required
         ></textarea>
+
+        <select v-model="selected">
+          <option v-for="option in options" :value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+
+        <div>Selected: {{ selected }}</div>
 
         <button
             type="submit"
@@ -81,8 +95,18 @@ const slug = ref('')
 const content = ref('')
 const imageFile = ref(null)
 const imagePreview = ref('')
+const alt = ref('')
 const success = ref(false)
 const error = ref('')
+
+const selected = ref('Design')
+
+const options = ref([
+  { text: 'Design', value: 'Design' },
+  { text: 'Dev', value: 'Dev' },
+  { text: 'Couleur', value: 'Couleur' },
+  { text: 'Autre', value: 'Autre' }
+])
 
 const isEdit = computed(() => !!route.params.slug)
 const htmlPreview = computed(() => marked.parse(content.value))
@@ -103,8 +127,10 @@ onMounted(async () => {
       if (!response.ok) throw new Error('Article non trouvé')
       const file = await response.json()
       title.value = file.title
+      alt.value = file.alt
       slug.value = file.slug
       content.value = file.content
+
       imagePreview.value = file.image ? `/api/uploads/${file.image}` : ''
     } catch (e) {
       error.value = "Impossible de charger l'article."
@@ -120,6 +146,8 @@ async function submitArticle() {
   formData.append('title', title.value)
   formData.append('slug', slug.value)
   formData.append('content', content.value)
+  formData.append('category', selected.value)
+  formData.append('alt', alt.value)
   if (imageFile.value) {
     formData.append('image', imageFile.value)
   }

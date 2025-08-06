@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
 import Article from '../views/Article.vue'
 import ArticleForm from "../views/admin/ArticleForm.vue";
 import HomeView from "../views/HomeView.vue";
@@ -7,7 +6,7 @@ import Login from "../views/admin/Login.vue";
 import AdminView from "../views/admin/AdminView.vue";
 import About from "../views/About.vue";
 import ContactView from "../views/ContactView.vue";
-import AllArticles from "../views/admin/AllArticles.vue";
+import AllArticles from "../views/AllArticles.vue";
 
 
 const routes = [

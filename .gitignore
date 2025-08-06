@@ -34,7 +34,8 @@ Thumbs.db
 *.lock
 
 # Dossier articles (si tu ne veux pas versionner les articles)
-# articles/
+ articles/
+ uploads/
 
 # Fichiers utilisateur
 users.json

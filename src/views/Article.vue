@@ -1,7 +1,9 @@
 <template>
   <div v-if="article" class="prose max-w-none p-6">
     <h1 class="text-3xl font-bold mb-4">{{ article.title }}</h1>
+    <span>{{ article.category}}</span>
     <img v-if="article.imageUrl" :src="article.imageUrl" class="mb-4 max-w-full rounded" />
+    <span>{{ article.alt }}</span>
     <div v-html="htmlContent"></div>
   </div>
   <div v-else class="p-6 text-gray-500">Chargement de l'article...</div>
