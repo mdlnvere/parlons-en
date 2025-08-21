@@ -56,6 +56,13 @@
 
         <div>Selected: {{ selected }}</div>
 
+        <input
+            v-model="readingTime"
+            placeholder="Temps de lecture"
+            class="w-full p-2 border rounded"
+            required
+        />
+
         <button
             type="submit"
             :class="isEdit ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'"
@@ -96,6 +103,7 @@ const content = ref('')
 const imageFile = ref(null)
 const imagePreview = ref('')
 const alt = ref('')
+const readingTime = ref('')
 const success = ref(false)
 const error = ref('')
 
@@ -130,6 +138,7 @@ onMounted(async () => {
       alt.value = file.alt
       slug.value = file.slug
       content.value = file.content
+     // readingTime.value = file.readingTime
 
       imagePreview.value = file.image ? `/api/uploads/${file.image}` : ''
     } catch (e) {
@@ -148,6 +157,7 @@ async function submitArticle() {
   formData.append('content', content.value)
   formData.append('category', selected.value)
   formData.append('alt', alt.value)
+  formData.append('readingTime', readingTime.value)
   if (imageFile.value) {
     formData.append('image', imageFile.value)
   }

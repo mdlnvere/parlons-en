@@ -3,12 +3,20 @@ import {ref, onMounted, computed} from 'vue'
 import { marked } from 'marked'
 import { API_BASE, API_VITE } from '/config'
 
+const hoveredCard = ref(null)
 
 const articles = ref([])
 
 const activeCategory = ref('Tous')
 
 const categories = ['Tous', 'Design', 'Dev', 'Couleur', 'Autre']
+
+const categoryColors = {
+  Design: 'bg-pink-500',
+  Dev: 'bg-blue-500',
+  Couleur: 'bg-yellow-500',
+  Autre: 'bg-purple-900',
+}
 
 const filteredArticles = computed(() => {
   if (activeCategory.value === 'Tous') return articles.value
@@ -67,26 +75,40 @@ onMounted(async () => {
       </div>
       <p class="font-normal text-base">{{ filteredArticles.length }} articles trouvés</p>
     </div>
-    <div class=" grid grid-cols-2 md:grid-cols-3 gap-8 my-10">
-      <div v-for="article in filteredArticles" :key="article.slug">
-        <div class="rounded-lg bg-white shadow-xl shadow-neutral-800/20  flex flex-col gap-0 ">
-          <router-link :to="`/article/${article.slug}`" >
-            <div class="rounded-t-lg  md:h-[191px] bg-center bg-cover bg-no-repeat hover:brightness-50"
-                 v-if="article.imageUrl"
-                 :style="{ backgroundImage: `url(${article.imageUrl})` }"
-            >
-              <div class="flex justify-end">
-                <span class="rounded-full m-3 py-1 px-3 bg-accent text-white"> {{ article.category }}</span>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-8 my-10">
+        <div
+            v-for="article in filteredArticles"
+            :key="article.slug"
+            @mouseenter="hoveredCard = article.slug"
+            @mouseleave="hoveredCard = null"
+            class="transition duration-300"
+        >
+          <div class="rounded-lg bg-white shadow-xl shadow-neutral-800/10 flex flex-col h-full">
+            <router-link :to="`/article/${article.slug}`" class="block h-full">
+              <div
+                  class="rounded-t-md md:h-[191px] bg-center bg-cover bg-no-repeat transition duration-300"
+                  v-if="article.imageUrl"
+                  :style="{ backgroundImage: `url(${article.imageUrl})` }"
+                  :class="[
+              hoveredCard === article.slug ? 'grayscale-0 opacity-100 saturate-150' :
+              hoveredCard ? 'grayscale opacity-60' :
+              'grayscale-0 opacity-100'
+            ]"
+              >
+                <div class="flex justify-end">
+              <span
+                  class="rounded-full m-3 py-1 px-3 text-white"
+                  :class="categoryColors[article.category]"
+              >
+                {{ article.category }}
+              </span>
+                </div>
               </div>
-            </div>
-
-            <h6 class="m-4 text-sm font-semibold" >{{ article.title }}</h6>
-          </router-link>
-
+              <h6 class="m-4 text-sm font-semibold">{{ article.title }}</h6>
+            </router-link>
+          </div>
         </div>
       </div>
-    </div>
-
   </section>
 </template>
 

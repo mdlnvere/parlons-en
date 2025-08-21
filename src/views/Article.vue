@@ -1,13 +1,3 @@
-<template>
-  <div v-if="article" class="prose max-w-none p-6">
-    <h1 class="text-3xl font-bold mb-4">{{ article.title }}</h1>
-    <span>{{ article.category}}</span>
-    <img v-if="article.imageUrl" :src="article.imageUrl" class="mb-4 max-w-full rounded" />
-    <span>{{ article.alt }}</span>
-    <div v-html="htmlContent"></div>
-  </div>
-  <div v-else class="p-6 text-gray-500">Chargement de l'article...</div>
-</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -21,6 +11,8 @@ const htmlContent = ref('')
 
 onMounted(async () => {
   const slug = route.params.slug
+
+
 
   try {
     const response = await fetch(`${API_BASE}/articles`)
@@ -47,3 +39,19 @@ onMounted(async () => {
 
 
 </script>
+
+
+<template>
+  <div v-if="article" class="prose max-w-none p-6">
+    <h1 class="text-3xl font-bold mt-2 mx-3 md:mx-5 md:pt-5 pb-2">{{ article.title }}</h1>
+
+
+    <span class="rounded-full m-3 py-1 px-3 border border-black text-black"
+          >{{ article.category }}</span>
+    <p>{{ article.readingTime }} de lecture</p>
+    <img v-if="article.imageUrl" :src="article.imageUrl" :alt="article.alt" class="mb-4 max-w-full rounded" />
+
+    <div v-html="htmlContent"></div>
+  </div>
+  <div v-else class="p-6 text-gray-500">Chargement de l'article...</div>
+</template>

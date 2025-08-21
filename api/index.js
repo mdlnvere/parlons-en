@@ -39,14 +39,14 @@ const upload = multer({ storage: storage })
 
 //Routes api
 app.post('/api/articles', verifyToken, upload.single('image'), (req, res) => {
-    const { title, slug, content, category, alt } = req.body
+    const { title, slug, content, category, alt, readingTime } = req.body
     const image = req.file ? req.file.filename : null
 
     if (!slug) {
         return res.status(400).json({ error: 'Slug manquant' })
     }
 
-    const article = { title, slug, image, content, category }
+    const article = { title, slug, image, content, category, alt, readingTime }
     const filePath = path.join(__dirname, 'articles', `${slug}.json`)
 
     fs.writeFile(filePath, JSON.stringify(article, null, 2), (err) => {
@@ -173,7 +173,7 @@ app.post('/api/login', async (req, res) => {
 
 app.put('/api/articles/:slug', verifyToken, upload.single('image'), (req, res) => {
     const slug = req.params.slug
-    const { title, content, category, alt } = req.body
+    const { title, content, category, alt, readingTime } = req.body
     const image = req.file ? req.file.filename : req.body.image // soit nouvelle image uploadée, soit ancienne image passée en string
 
     if (!slug) return res.status(400).json({ error: 'Slug manquant' })
@@ -184,7 +184,7 @@ app.put('/api/articles/:slug', verifyToken, upload.single('image'), (req, res) =
         return res.status(404).json({ error: 'Article non trouvé' })
     }
 
-    const article = { title, slug, image, content, category, alt }
+    const article = { title, slug, image, content, category, alt, readingTime }
 
     fs.writeFile(filePath, JSON.stringify(article, null, 2), err => {
         if (err) {
@@ -199,6 +199,7 @@ app.put('/api/articles/:slug', verifyToken, upload.single('image'), (req, res) =
 app.get('/api/articles/:slug', verifyToken, (req, res) => {
     const slug = req.params.slug
     const filePath = path.join(articlesDir, `${slug}.json`)
+
 
     if (!fs.existsSync(filePath)) {
         return res.status(404).json({ error: 'Article non trouvé' })
