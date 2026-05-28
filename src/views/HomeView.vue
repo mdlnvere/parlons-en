@@ -47,17 +47,11 @@
           ←
         </button>
         <div ref="carousel" class="flex  gap-14 transition-transform duration-500 ease-in-out overflow-x-auto scroll-smooth no-scrollbar">
-          <div  class=" my-10 rounded min-h-[450px] min-w-[310px] bg-[url(/images/design.png)] bg-cover bg-center flex flex-col-reverse text-start" style="border-radius: 19px;">
-            <h4 class="text-4xl font-semibold m-5">Design</h4>
-          </div>
-          <div class="rounded min-h-[450px] min-w-[310px] bg-[url(/images/man-working.png)] bg-cover bg-center flex flex-col-reverse text-start my-10" style="border-radius: 19px;">
-            <h4 class="text-4xl font-semibold m-5">Dev & Tech</h4>
-          </div>
-          <div class="rounded min-h-[450px] min-w-[310px] bg-[url(/images/colors.png)] bg-cover bg-right flex flex-col-reverse text-start my-10" style="border-radius: 19px;">
-            <h4 class="text-4xl font-semibold m-5">Color</h4>
-          </div>
-          <div class="rounded min-h-[450px] min-w-[310px] bg-[url(/images/other.png)]  bg-cover bg-right-bottom flex flex-col-reverse text-start my-10" style="border-radius: 19px;">
-            <h4 class="text-4xl font-semibold m-5">Autre</h4>
+          <div v-for="category in categories" 
+          :key="category" 
+          :style="{ backgroundImage: `url(${category.category_image})` }"
+          class=" my-10 rounded min-h-[450px] min-w-[310px]  bg-cover bg-center flex flex-col-reverse text-start" style="border-radius: 19px;">
+            <h4 class="text-4xl font-semibold m-5">{{ category.name }}</h4>
           </div>
           <div class="shrink-0 w-10"></div>
         </div>
@@ -76,7 +70,7 @@
       <div class="flex flex-col justify-around py-10 px-4 md:px-28">
         <h3 class="font-medium text-xl"  > DERRIERE L'ECRAN</h3>
         <h2 class="text-4xl" style="font-weight: bolder">Ravie de te rencontrer</h2>
-        <p class="text-base  pb-6 w-96 " style="font-weight: lighter">Moi, c’est Anne-Sophie Vere, freelance passionnée par le design, le développement, et tout ce qui nourrit mon univers créatif.  Ici, je partage projets, idées et inspirations qui me passionnent au quotidien.</p>
+        <p class="text-base  pb-6 w-96 " style="font-weight: lighter">Moi, c’est Anne-Sophie Vere, freelance passionnée par le design, le développement, et tout ce qui nourrit mon univers créatif. Ici, je partage projets, idées et inspirations qui me passionnent au quotidien.</p>
         <p class="text-2xl font-bold">Assieds toi, le meilleur reste à venir</p>
         <router-link to="/about" class="text-sm  text-black py-1 px-3 border font-medium bg-white rounded-xl w-max mt-2">
           Explorer mon profil
@@ -101,7 +95,7 @@
                 :style="{ backgroundImage: `url(${articles[0].imageUrl})` }"
             ></div>
             <div class="flex flex-col justify-between p-2">
-              <div class="prose text-xs md:text-xs font-medium mb-5" v-html="articles[0].mainPreview"></div>
+              <div class="prose text-xs md:text-xs font-medium mb-5" v-html="articles[0].title"></div>
               <div class="flex  justify-end ">
                 <router-link :to="`/article/${articles[0].slug}`" class="text-sm py-1 px-3 border font-medium border-black rounded-xl hover:bg-black hover:text-white w-max mt-2">
                   Lire l'article
@@ -122,7 +116,7 @@
                   :style="{ backgroundImage: `url(${article.imageUrl})` }"
               ></div>
               <div class="flex flex-col">
-                <div class="prose prose-smaller text-xs md:text-sm mb-2" v-html="article.preview"></div>
+                  <div class="prose prose-smaller text-xs md:text-sm mb-2" v-html="article.title"></div>
                 <div class="flex justify-end mt-2">
                   <router-link :to="`/article/${article.slug}`" class="text-sm py-1 px-3 border font-medium border-black rounded-xl hover:bg-black hover:text-white w-max">
                     Lire l'article
@@ -162,11 +156,24 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { marked } from 'marked'
-import { API_BASE, API_VITE } from '/config'
+import { API_WP } from '/config'
+import { fetchCategories, fetchArticles } from '../services/api.js'
 
 
 const articles = ref([])
 
+const categories = ref([])
+
+onMounted(async () => {
+  categories.value = await fetchCategories()
+  console.log(categories.value)
+
+  articles.value = await fetchArticles()
+  console.log('articles', articles.value)
+
+  const catImg = categories.value.map(category => category.category_image)
+  console.log('catImg', catImg)
+})
 
 const carousel = ref(null)
 const items = Array.from({ length: 10 }) // 10 cartes
@@ -187,21 +194,5 @@ function scrollLeft() {
   }
 }
 
-onMounted(async () => {
-  try {
-    const res = await fetch(`${API_BASE}/articles`)
-    const data = await res.json()
 
-
-    // ✅ Génère un aperçu HTML Markdown pour chaque article
-    articles.value = data.map(article => ({
-      ...article,
-      imageUrl: article.image ? `${API_VITE}/uploads/${article.image}` : null,
-      preview: marked.parse(article.content.substring(0, 100) + '...'),// Limite à 200 caractères par exemple
-      mainPreview: marked.parse(article.content.substring(0, 500) + '...')
-    }))
-  } catch (err) {
-    console.error('Erreur chargement articles', err)
-  }
-})
 </script>

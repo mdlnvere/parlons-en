@@ -1,57 +1,49 @@
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { marked } from 'marked'
-import { API_BASE, API_VITE } from '/config'
+import { fetchArticleBySlug } from '../services/api.js'
+import { API_WP } from '/config'
 
 const route = useRoute()
 const article = ref(null)
-const htmlContent = ref('')
+const isLoading = ref(true)
+const error = ref(null)
 
 onMounted(async () => {
-  const slug = route.params.slug
-
-
-
   try {
-    const response = await fetch(`${API_BASE}/articles`)
-    const articles = await response.json()
-
-    // Trouve l’article par slug
-    const found = articles.find(a => a.slug === slug)
-
-    if (found) {
-      // Ajoute imageUrl si image présente
-      article.value = {
-        ...found,
-        imageUrl: found.image ? `${API_VITE}/uploads/${found.image}` : null
-      }
-
-      htmlContent.value = marked.parse(found.content)
-    } else {
-      console.warn('Article non trouvé')
-    }
+    article.value = await fetchArticleBySlug(route.params.slug)
   } catch (err) {
-    console.error('Erreur lors de la récupération de l’article :', err)
+    console.error("Erreur lors de la récupération de l'article :", err)
+    error.value = 'Article introuvable ou erreur serveur.'
+  } finally {
+    isLoading.value = false
   }
 })
-
-
 </script>
 
-
 <template>
-  <div v-if="article" class="prose max-w-none p-6">
-    <h1 class="text-3xl font-bold mt-2 mx-3 md:mx-5 md:pt-5 pb-2">{{ article.title }}</h1>
+  <!-- Chargement -->
+  <div v-if="isLoading" class="p-6 text-gray-500">Chargement de l'article…</div>
 
+  <!-- Erreur -->
+  <div v-else-if="error" class="p-6 text-red-500">{{ error }}</div>
 
-    <span class="rounded-full m-3 py-1 px-3 border border-black text-black"
-          >{{ article.category }}</span>
-    <p>{{ article.readingTime }} de lecture</p>
-    <img v-if="article.imageUrl" :src="article.imageUrl" :alt="article.alt" class="mb-4 max-w-full rounded" />
+  <!-- Article -->
+  <div v-else-if="article" class="prose max-w-none p-6">
+    <h1 class="text-3xl font-bold mt-2 mx-3 md:mx-5 md:pt-5 pb-2" v-html="article.title" />
 
-    <div v-html="htmlContent"></div>
+    <span class="rounded-full m-3 py-1 px-3 border border-black text-black">
+      {{ article.category }}
+    </span>
+
+    <img
+      v-if="article.imageUrl"
+      :src="article.imageUrl"
+      :alt="article.title"
+      class="mb-4 max-w-full rounded"
+    />
+
+    <!-- Le contenu WP est déjà du HTML, pas besoin de marked() -->
+    <div v-html="article.content" />
   </div>
-  <div v-else class="p-6 text-gray-500">Chargement de l'article...</div>
 </template>
